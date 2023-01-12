@@ -13,6 +13,9 @@ public class Room {
 
 	private String roomNumber;
 
+	private String roomType;
+
+
 	private Date stayingDate;
 
 	public String getRoomNumber() {
@@ -29,5 +32,8 @@ public class Room {
 
 	public void setStayingDate(Date stayingDate) {
 		this.stayingDate = stayingDate;
+	}
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 }

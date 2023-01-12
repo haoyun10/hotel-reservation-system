@@ -31,7 +31,7 @@ public class AvailableQtySqlDao implements AvailableQtyDao {
 	/**
 	 * @see domain.room.AvailableQtyDao#getAvailableQty(java.util.Date)
 	 */
-	public AvailableQty getAvailableQty(Date date) throws RoomException {
+	public AvailableQty getAvailableQty(Date date,String roomType) throws RoomException {
 		StringBuffer sql = new StringBuffer();
 		Statement statement = null;
 		ResultSet resultSet = null;
@@ -44,6 +44,8 @@ public class AvailableQtySqlDao implements AvailableQtyDao {
 			sql.append(TABLE_NAME);
 			sql.append(" WHERE DATE='");
 			sql.append(DateUtil.convertToString(date));
+			sql.append("' AND ROOMTYPE='");
+			sql.append(roomType);
 			sql.append("';");
 
 			resultSet = statement.executeQuery(sql.toString());
@@ -84,6 +86,8 @@ public class AvailableQtySqlDao implements AvailableQtyDao {
 			sql.append(availableQty.getQty());
 			sql.append("' WHERE DATE='");
 			sql.append(DateUtil.convertToString(availableQty.getDate()));
+			sql.append("' And ROOMTYPE='");
+			sql.append(availableQty.getRoomType());
 			sql.append("';");
 
 			resultSet = statement.executeQuery(sql.toString());
@@ -111,13 +115,15 @@ public class AvailableQtySqlDao implements AvailableQtyDao {
 			statement = connection.createStatement();
 			sql.append("INSERT INTO ");
 			sql.append(TABLE_NAME);
-			sql.append(" (date, qty) ");
+			sql.append(" (date,roomtype,qty) ");
 			sql.append("values ('");
 			sql.append(DateUtil.convertToString(availableQty.getDate()));
 			sql.append("', '");
+			sql.append(availableQty.getRoomType());
+			sql.append("', '");
 			sql.append(availableQty.getQty());
 			sql.append("');");
-
+			System.out.println(sql.toString());
 			resultSet = statement.executeQuery(sql.toString());
 		}
 		catch (SQLException e) {

@@ -32,6 +32,7 @@ public class CheckOutRoomControl {
 			 * Your code for consuming payment by using domain.payment.PaymentManager
 			 */
 			PaymentManager paymentManager = getPaymentManager();
+			// Integer amout=paymentManager.amount;
 			paymentManager.consumePayment(stayingDate, roomNumber);
 
 		}

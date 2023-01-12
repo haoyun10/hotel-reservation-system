@@ -18,7 +18,8 @@ public class Payment {
 	private Date stayingDate;
 
 	private String roomNumber;
-
+	
+	private String roomType;
 	/**
 	 * Fee
 	 */
@@ -67,4 +68,13 @@ public class Payment {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
 }

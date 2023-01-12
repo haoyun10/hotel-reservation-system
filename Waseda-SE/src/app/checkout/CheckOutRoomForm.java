@@ -18,6 +18,8 @@ public class CheckOutRoomForm {
 	}
 
 	private String roomNumber;
+	// private Integer amout;
+
 
 	public void checkOut() throws AppException {
 		/**

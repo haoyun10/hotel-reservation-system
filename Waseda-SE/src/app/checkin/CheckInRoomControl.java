@@ -4,6 +4,8 @@
 package app.checkin;
 
 import java.util.Date;
+import java.util.*;
+import util.DateUtil;
 
 import app.AppException;
 import app.ManagerFactory;
@@ -24,15 +26,19 @@ public class CheckInRoomControl {
 		try {
 			//Consume reservation
 			ReservationManager reservationManager = getReservationManager();
-			Date stayingDate = reservationManager.consumeReservation(reservationNumber);
-
+			List<String> list1=reservationManager.consumeReservation(reservationNumber);
+		
+			Date stayingDate = DateUtil.convertToDate(list1.get(0));
+			String roomType = list1.get(1);
+			System.out.println("stayingDate "+list1.get(1));
+			
 			//Assign room
 			RoomManager roomManager = getRoomManager();
-			String roomNumber = roomManager.assignCustomer(stayingDate);
+			String roomNumber = roomManager.assignCustomer(stayingDate,roomType);
 
 			//Create payment
 			PaymentManager paymentManager = getPaymentManager();
-			paymentManager.createPayment(stayingDate, roomNumber);
+			paymentManager.createPayment(stayingDate, roomNumber,roomType);
 
 			return roomNumber;
 		}

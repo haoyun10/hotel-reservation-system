@@ -32,7 +32,7 @@ public class RoomSqlDao implements RoomDao {
 	/**
 	 * @see domain.room.RoomDao#getRooms()
 	 */
-	public List getRooms() throws RoomException {
+	public List getRooms(String roomType) throws RoomException {
 		StringBuffer sql = new StringBuffer();
 		Statement statement = null;
 		ResultSet resultSet = null;
@@ -43,8 +43,12 @@ public class RoomSqlDao implements RoomDao {
 			statement = connection.createStatement();
 			sql.append("SELECT roomnumber FROM ");
 			sql.append(TABLE_NAME);
-			sql.append(";");
+			sql.append(" WHERE ROOMTYPE='");
+			sql.append(roomType);
+			sql.append("';");
 			resultSet = statement.executeQuery(sql.toString());
+	
+
 			while (resultSet.next()) {
 				roomList.add(resultSet.getString("roomnumber"));
 			}
@@ -72,7 +76,7 @@ public class RoomSqlDao implements RoomDao {
 		try {
 			connection = getConnection();
 			statement = connection.createStatement();
-			sql.append("SELECT roomnumber, stayingdate FROM ");
+			sql.append("SELECT roomnumber, roomtype, stayingdate FROM ");
 			sql.append(TABLE_NAME);
 			sql.append(" WHERE ROOMNUMBER='");
 			sql.append(roomNumber);
@@ -82,6 +86,7 @@ public class RoomSqlDao implements RoomDao {
 			if (resultSet.next() == true) {
 				room = new Room();
 				room.setRoomNumber(roomNumber);
+				room.setRoomType(resultSet.getString("roomtype"));
 				room.setStayingDate(DateUtil.convertToDate(resultSet.getString("stayingDate")));
 			}
 		}
@@ -99,7 +104,7 @@ public class RoomSqlDao implements RoomDao {
 	/**
 	 * @see domain.room.RoomDao#getEmptyRooms()
 	 */
-	public List getEmptyRooms() throws RoomException {
+	public List getEmptyRooms(String roomType) throws RoomException {
 		StringBuffer sql = new StringBuffer();
 		Statement statement = null;
 		ResultSet resultSet = null;
@@ -110,7 +115,10 @@ public class RoomSqlDao implements RoomDao {
 			statement = connection.createStatement();
 			sql.append("SELECT roomnumber FROM ");
 			sql.append(TABLE_NAME);
-			sql.append(" WHERE stayingdate='';");
+			// sql.append(" WHERE stayingdate=''");
+			sql.append(" WHERE roomtype='");
+			sql.append(roomType);
+			sql.append("';");
 			resultSet = statement.executeQuery(sql.toString());
 			while (resultSet.next()) {
 				Room room = new Room();
@@ -120,7 +128,7 @@ public class RoomSqlDao implements RoomDao {
 		}
 		catch (SQLException e) {
 			RoomException exception = new RoomException(RoomException.CODE_DB_EXEC_QUERY_ERROR, e);
-			exception.getDetailMessages().add("getEmptyRooms()");
+			exception.getDetailMessages().add("getEmptyRooms(String roomType)");
 			throw exception;
 		}
 		finally {

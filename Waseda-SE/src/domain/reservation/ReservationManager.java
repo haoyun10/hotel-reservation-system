@@ -5,7 +5,9 @@ package domain.reservation;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.*;
 
+import util.DateUtil;
 import domain.DaoFactory;
 
 /**
@@ -14,16 +16,20 @@ import domain.DaoFactory;
  */
 public class ReservationManager {
 	
-	public String createReservation(Date stayingDate) throws ReservationException,
+	public String createReservation(Date stayingDate,String roomType) throws ReservationException,
 			NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
 		}
-
+		if (roomType == null) {
+			throw new NullPointerException("roomType");
+		}
 		Reservation reservation = new Reservation();
 		String reservationNumber = generateReservationNumber();
 		reservation.setReservationNumber(reservationNumber);
 		reservation.setStayingDate(stayingDate);
+		reservation.setRoomType(roomType);
+
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CREATE);
 
 		ReservationDao reservationDao = getReservationDao();
@@ -41,7 +47,7 @@ public class ReservationManager {
 		return String.valueOf(calendar.getTimeInMillis());
 	}
 
-	public Date consumeReservation(String reservationNumber) throws ReservationException,
+	public List<String> consumeReservation(String reservationNumber) throws ReservationException,
 			NullPointerException {
 		if (reservationNumber == null) {
 			throw new NullPointerException("reservationNumber");
@@ -65,9 +71,14 @@ public class ReservationManager {
 		}
 
 		Date stayingDate = reservation.getStayingDate();
+		String roomType=reservation.getRoomType();
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CONSUME);
 		reservationDao.updateReservation(reservation);
-		return stayingDate;
+
+		List<String> list=new ArrayList<>();
+        list.add(DateUtil.convertToString(stayingDate));
+        list.add(roomType);
+        return list;
 	}
 
 	private ReservationDao getReservationDao() {

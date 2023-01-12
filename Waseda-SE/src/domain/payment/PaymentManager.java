@@ -19,7 +19,7 @@ public class PaymentManager {
 	 */
 	private static final int RATE_PER_DAY = 8000;
 
-	public void createPayment(Date stayingDate, String roomNumber) throws PaymentException,
+	public void createPayment(Date stayingDate, String roomNumber, String roomType) throws PaymentException,
 			NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
@@ -31,15 +31,20 @@ public class PaymentManager {
 		Payment payment = new Payment();
 		payment.setStayingDate(stayingDate);
 		payment.setRoomNumber(roomNumber);
-		payment.setAmount(getRatePerDay(roomNumber));
+		payment.setRoomType(roomType);
+		payment.setAmount(getRatePerDay(roomNumber,roomType));
 		payment.setStatus(Payment.PAYMENT_STATUS_CREATE);
 
 		PaymentDao paymentDao = getPaymentDao();
 		paymentDao.createPayment(payment);
 	}
 
-	private int getRatePerDay(String roomNumber) {
-		return RATE_PER_DAY;
+	private int getRatePerDay(String roomNumber,String roomType) {
+		if(roomType.equals("1")){
+			return RATE_PER_DAY;
+		}else{
+			return RATE_PER_DAY*2;
+		}
 	}
 
 	public void consumePayment(Date stayingDate, String roomNumber) throws PaymentException,
@@ -53,6 +58,9 @@ public class PaymentManager {
 
 		PaymentDao paymentDao = getPaymentDao();
 		Payment payment = paymentDao.getPayment(stayingDate, roomNumber);
+		int fee=payment.getAmount();
+		System.out.println("Total Amount: "+fee);
+
 		//If corresponding payment does not exist
 		if (payment == null) {
 			PaymentException exception = new PaymentException(

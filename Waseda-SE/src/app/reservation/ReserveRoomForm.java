@@ -17,13 +17,16 @@ public class ReserveRoomForm {
 
 	private Date stayingDate;
 
+	private String roomType;
+
+
 	private ReserveRoomControl getReserveRoomHandler() {
 		return reserveRoomHandler;
 	}
 
 	public String submitReservation() throws AppException {
 		ReserveRoomControl reserveRoomHandler = getReserveRoomHandler();
-		return reserveRoomHandler.makeReservation(stayingDate);
+		return reserveRoomHandler.makeReservation(stayingDate,roomType);
 	}
 
 	public Date getStayingDate() {
@@ -33,5 +36,11 @@ public class ReserveRoomForm {
 	public void setStayingDate(Date stayingDate) {
 		this.stayingDate = stayingDate;
 	}
+	public String getRoomType() {
+		return roomType;
+	}
 
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
 }

@@ -15,7 +15,7 @@ import domain.DaoFactory;
  */
 public class RoomManager {
 	
-	public void updateRoomAvailableQty(Date stayingDate, int qtyOfChange) throws RoomException,
+	public void updateRoomAvailableQty(Date stayingDate,String roomType, int qtyOfChange) throws RoomException,
 			NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
@@ -25,16 +25,18 @@ public class RoomManager {
 		}
 
 		AvailableQtyDao availableQtyDao = getAvailableQtyDao();
-		AvailableQty availableQty = availableQtyDao.getAvailableQty(stayingDate);
+		AvailableQty availableQty = availableQtyDao.getAvailableQty(stayingDate,roomType);
 		//Create new AvailableQty if corresponding AvailableQty on stayingDate does not exist
 		if (availableQty == null) {
 			availableQty = new AvailableQty();
 			availableQty.setQty(AvailableQty.AVAILABLE_ALL);
 			availableQty.setDate(stayingDate);
+			availableQty.setRoomType(roomType);
+
 		}
 
 		// Obtain maximum number of available rooms
-		int maxAvailableQty = getMaxAvailableQty();
+		int maxAvailableQty = getMaxAvailableQty(roomType);
 		if (availableQty.getQty() == AvailableQty.AVAILABLE_ALL) {
 			// If all rooms are available,  
 			// set then maximum number obtained to number of available rooms 
@@ -49,6 +51,7 @@ public class RoomManager {
 			// If it is possible to update
 			availableQty.setQty(changedAvailableQty);
 			availableQty.setDate(stayingDate);
+			availableQty.setRoomType(roomType);
 			availableQtyDao.updateAvailableQty(availableQty);
 		}
 		else {
@@ -61,19 +64,19 @@ public class RoomManager {
 		}
 	}
 
-	private int getMaxAvailableQty() throws RoomException {
+	private int getMaxAvailableQty(String roomType) throws RoomException {
 		RoomDao roomDao = getRoomDao();
-		List rooms = roomDao.getRooms();
+		List rooms = roomDao.getRooms(roomType);
 		return rooms.size();
 	}
 
-	public String assignCustomer(Date stayingDate) throws RoomException, NullPointerException {
+	public String assignCustomer(Date stayingDate, String roomType) throws RoomException, NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
 		}
 		RoomDao roomDao = getRoomDao();
 		// Obtain all of empty available rooms
-		List emptyRooms = roomDao.getEmptyRooms();
+		List emptyRooms = roomDao.getEmptyRooms(roomType);
 		// If there is no empty available rooms
 		if (emptyRooms.size() == 0) {
 			RoomException exception = new RoomException(RoomException.CODE_EMPTYROOM_NOT_FOUND);

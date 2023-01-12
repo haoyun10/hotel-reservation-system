@@ -23,6 +23,9 @@ public class AvailableQty {
 	 */
 	private int qty;
 
+	private String roomType;
+
+
 	public Date getDate() {
 		return date;
 	}
@@ -37,6 +40,13 @@ public class AvailableQty {
 
 	public void setQty(int qty) {
 		this.qty = qty;
+	}
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 
 }

@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface RoomDao {
 
-	public List getRooms() throws RoomException;
+	public List getRooms(String roomType) throws RoomException;
 
-	public List getEmptyRooms() throws RoomException;
+	public List getEmptyRooms(String roomType) throws RoomException;
 
 	public Room getRoom(String roomNumber) throws RoomException;
 

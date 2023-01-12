@@ -80,16 +80,27 @@ public class CUI {
 		System.out.print("> ");
 
 		String dateStr = reader.readLine();
-
-		// Validate input
 		Date stayingDate = DateUtil.convertToDate(dateStr);
 		if (stayingDate == null) {
+			System.out.println("Invalid input");
+			return;
+		}
+		
+		System.out.println("Input Room Type (1 for one person, 2 for two people)");
+		System.out.print("> ");
+
+		String roomType = reader.readLine();
+		// Validate input
+		
+		if (roomType==null||(!roomType.equals("1")&&!roomType.equals("2"))) {
 			System.out.println("Invalid input");
 			return;
 		}
 
 		ReserveRoomForm reserveRoomForm = new ReserveRoomForm();
 		reserveRoomForm.setStayingDate(stayingDate);
+		reserveRoomForm.setRoomType(roomType);
+
 		String reservationNumber = reserveRoomForm.submitReservation();
 
 		System.out.println("Reservation has been completed.");
@@ -139,4 +150,3 @@ public class CUI {
 		cui.execute();
 	}
 }
-

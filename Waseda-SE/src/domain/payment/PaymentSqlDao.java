@@ -113,10 +113,12 @@ public class PaymentSqlDao implements PaymentDao {
 			statement = connection.createStatement();
 			sql.append("INSERT INTO ");
 			sql.append(TABLE_NAME);
-			sql.append(" (roomnumber, stayingDate, amount, status) values ('");
+			sql.append(" (roomnumber, stayingDate, roomType, amount, status) values ('");
 			sql.append(payment.getRoomNumber());
 			sql.append("', '");
 			sql.append(DateUtil.convertToString(payment.getStayingDate()));
+			sql.append("', '");
+			sql.append(payment.getRoomType());
 			sql.append("', '");
 			sql.append(payment.getAmount());
 			sql.append("', '");
@@ -137,11 +139,11 @@ public class PaymentSqlDao implements PaymentDao {
 	}
 
 	/**
-	 * ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br>
+	 * ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B<br>
 	 * 
-	 * @return ƒRƒlƒNƒVƒ‡ƒ“
+	 * @return ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
 	 * @throws PaymentException
-	 *            ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“æ“¾‚ª¸”s‚µ‚½ê‡‚É”­¶‚µ‚Ü‚·B
+	 *            ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 */
 	private Connection getConnection() throws PaymentException {
 		Connection connection = null;
