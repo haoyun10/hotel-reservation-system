@@ -1,5 +1,6 @@
 .DS_Store
-.project
-.lck
-.log
-.script
+*.project
+*.lck
+*.log
+*.script
+.gitignore
