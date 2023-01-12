@@ -3,4 +3,6 @@
 *.lck
 *.log
 *.script
-.gitignore
+*.gitignore
+*.properties
+
