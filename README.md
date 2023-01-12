@@ -12,6 +12,12 @@ Todo:
   - [X] CheckOut()
 
 Way to run this system:
-    cd dev_program_DB/mydb/
-    sh runServer.sh
-    java Waseda-SE/src/app/cui/CUI.java
+    (open database)
+    cd dev_program_DB/mydb/ \
+    java -classpath ../lib/hsqldb.jar org.hsqldb.Server -database mydb\
+    cd ..
+    cd lib
+    java -classpath hsqldb.jar org.hsqldb.util.DatabaseManager
+
+    (run CUI)
+    java -cp "Waseda-SE/bin:Waseda-SE/lib/hsqldb.jar" app.cui.CUI
