@@ -123,7 +123,6 @@ public class AvailableQtySqlDao implements AvailableQtyDao {
 			sql.append("', '");
 			sql.append(availableQty.getQty());
 			sql.append("');");
-			System.out.println(sql.toString());
 			resultSet = statement.executeQuery(sql.toString());
 		}
 		catch (SQLException e) {

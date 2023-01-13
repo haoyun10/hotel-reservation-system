@@ -78,8 +78,7 @@ public class RoomSqlDao implements RoomDao {
 			statement = connection.createStatement();
 			sql.append("SELECT roomnumber, roomtype, stayingdate FROM ");
 			sql.append(TABLE_NAME);
-			sql.append(" WHERE STAYINGDATE=''");
-			sql.append(" AND ROOMNUMBER='");
+			sql.append(" WHERE ROOMNUMBER='");
 			sql.append(roomNumber);
 			sql.append("';");
 
@@ -114,10 +113,10 @@ public class RoomSqlDao implements RoomDao {
 		try {
 			connection = getConnection();
 			statement = connection.createStatement();
-			sql.append("SELECT roomnumber FROM ");
+			sql.append("SELECT DISTINCT roomnumber FROM ");
 			sql.append(TABLE_NAME);
-			// sql.append(" WHERE stayingdate=''");
-			sql.append(" WHERE roomtype='");
+			sql.append(" WHERE stayingdate=''");
+			sql.append(" AND roomtype='");
 			sql.append(roomType);
 			sql.append("';");
 			resultSet = statement.executeQuery(sql.toString());

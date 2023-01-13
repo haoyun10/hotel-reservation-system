@@ -124,7 +124,7 @@ public class PaymentSqlDao implements PaymentDao {
 			sql.append("', '");
 			sql.append(payment.getStatus());
 			sql.append("');");
-
+			// System.out.println(sql.toString());
 			resultSet = statement.executeQuery(sql.toString());
 		}
 		catch (SQLException e) {

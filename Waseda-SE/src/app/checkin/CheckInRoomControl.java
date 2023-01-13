@@ -30,7 +30,7 @@ public class CheckInRoomControl {
 		
 			Date stayingDate = DateUtil.convertToDate(list1.get(0));
 			String roomType = list1.get(1);
-			System.out.println("stayingDate "+list1.get(1));
+			// System.out.println("stayingDate "+list1.get(1));
 			
 			//Assign room
 			RoomManager roomManager = getRoomManager();
