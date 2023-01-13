@@ -2,7 +2,7 @@
 *.project
 *.lck
 *.log
-*.script
+# *.script
 *.gitignore
 *.properties
 
