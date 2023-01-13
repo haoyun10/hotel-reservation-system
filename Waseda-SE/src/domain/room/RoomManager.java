@@ -58,7 +58,7 @@ public class RoomManager {
 			// If it is impossible to update
 			RoomException exception = new RoomException(
 					RoomException.CODE_AVAILABLE_QTY_OUT_OF_BOUNDS);
-			exception.getDetailMessages().add("staying_date[" + DateUtil.convertToString(stayingDate) + "]");
+			exception.getDetailMessages().add("staying_date[" + DateUtil.convertToString(stayingDate) + "] Room_type["+roomType+ "] is filled. \nPlease choose again.");
 			throw exception;
 
 		}
