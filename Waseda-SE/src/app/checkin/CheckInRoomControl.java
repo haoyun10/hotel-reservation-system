@@ -22,7 +22,7 @@ import domain.room.RoomException;
  */
 public class CheckInRoomControl {
 
-	public String checkIn(String reservationNumber) throws AppException {
+	public List<String> checkIn(String reservationNumber) throws AppException {
 		try {
 			//Consume reservation
 			ReservationManager reservationManager = getReservationManager();
@@ -32,17 +32,21 @@ public class CheckInRoomControl {
 			Date checkoutDate = DateUtil.convertToDate(list1.get(1));
 
 			String roomType = list1.get(2);
+			Integer numOfroom = Integer.parseInt(list1.get(3));
+
 			// System.out.println("stayingDate "+list1.get(1));
-			
-			//Assign room
-			RoomManager roomManager = getRoomManager();
-			String roomNumber = roomManager.assignCustomer(stayingDate,checkoutDate,roomType);
+			List<String> roomNumberList=new ArrayList();
+			for(int i=0; i<numOfroom; i++){
+				//Assign room
+				RoomManager roomManager = getRoomManager();
+				String roomNumber = roomManager.assignCustomer(stayingDate,checkoutDate,roomType);
 
-			//Create payment
-			PaymentManager paymentManager = getPaymentManager();
-			paymentManager.createPayment(stayingDate,checkoutDate, roomNumber,roomType);
-
-			return roomNumber;
+				//Create payment
+				PaymentManager paymentManager = getPaymentManager();
+				paymentManager.createPayment(stayingDate,checkoutDate, roomNumber,roomType);
+				roomNumberList.add(roomNumber);
+			}
+			return roomNumberList;
 		}
 		catch (ReservationException e) {
 			AppException exception = new AppException("Failed to check-in", e);

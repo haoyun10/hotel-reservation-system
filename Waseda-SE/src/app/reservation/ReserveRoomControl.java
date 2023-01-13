@@ -20,9 +20,9 @@ import domain.room.RoomException;
  */
 public class ReserveRoomControl {
 
-	public String makeReservation(Date stayingDate ,Date checkoutDate, String roomType) throws AppException {
+	public String makeReservation(Date stayingDate ,Date checkoutDate, Integer numOfRoom,String roomType) throws AppException {
 		//Permitting only one night so that change amount of availableQty is always -1
-		int availableQtyOfChange = -1;
+		int availableQtyOfChange = - numOfRoom;
 		try {
 			//Update number of available rooms
 			RoomManager roomManager = getRoomManager();
@@ -39,7 +39,7 @@ public class ReserveRoomControl {
 			}
 			//Create reservation
 			ReservationManager reservationManager = getReservationManager();
-			String reservationNumber = reservationManager.createReservation(stayingDate,checkoutDate,roomType);
+			String reservationNumber = reservationManager.createReservation(stayingDate,checkoutDate,numOfRoom,roomType);
 			return reservationNumber;
 		}
 		catch (RoomException e) {

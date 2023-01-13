@@ -39,7 +39,7 @@ public class ReservationSqlDao implements ReservationDao {
 		try {
 			connection = getConnection();
 			statement = connection.createStatement();
-			sql.append("SELECT reservationnumber, stayingdate,checkoutdate,roomType, status FROM ");
+			sql.append("SELECT reservationnumber, stayingdate,checkoutdate,roomType,numOfRoom,status FROM ");
 			sql.append(TABLE_NAME);
 			sql.append(" WHERE RESERVATIONNUMBER= '");
 			sql.append(reservationNumber);
@@ -54,6 +54,8 @@ public class ReservationSqlDao implements ReservationDao {
 				reservation.setCheckoutDate(DateUtil.convertToDate(resultSet
 						.getString("checkoutDate")));
 				reservation.setRoomType(resultSet.getString("roomType"));
+				reservation.setNumOfRoom(resultSet.getInt("numOfRoom"));
+
 			}
 		}
 		catch (SQLException e) {
@@ -112,7 +114,7 @@ public class ReservationSqlDao implements ReservationDao {
 			statement = connection.createStatement();
 			sql.append("INSERT INTO ");
 			sql.append(TABLE_NAME);
-			sql.append(" (reservationNumber, stayingDate,checkoutDate,roomType, status) ");
+			sql.append(" (reservationNumber, stayingDate,checkoutDate,roomType,numOfRoom,status) ");
 			sql.append("values ('");
 			sql.append(reservation.getReservationNumber());
 			sql.append("', '");
@@ -121,6 +123,8 @@ public class ReservationSqlDao implements ReservationDao {
 			sql.append(DateUtil.convertToString(reservation.getCheckoutDate()));
 			sql.append("', '");
 			sql.append(reservation.getRoomType());
+			sql.append("', '");
+			sql.append(reservation.getNumOfRoom());
 			sql.append("', '");
 			sql.append(reservation.getStatus());
 			sql.append("');");

@@ -21,6 +21,7 @@ public class ReserveRoomForm {
 
 	private String roomType;
 
+	private Integer numOfRoom;
 
 	private ReserveRoomControl getReserveRoomHandler() {
 		return reserveRoomHandler;
@@ -28,7 +29,7 @@ public class ReserveRoomForm {
 
 	public String submitReservation() throws AppException {
 		ReserveRoomControl reserveRoomHandler = getReserveRoomHandler();
-		return reserveRoomHandler.makeReservation(stayingDate,checkoutDate,roomType);
+		return reserveRoomHandler.makeReservation(stayingDate,checkoutDate,numOfRoom,roomType);
 	}
 
 	public Date getStayingDate() {
@@ -52,4 +53,13 @@ public class ReserveRoomForm {
 	public void setRoomType(String roomType) {
 		this.roomType = roomType;
 	}
+
+	public Integer getNumOfRoom() {
+		return numOfRoom;
+	}
+
+	public void setNumOfRoom(Integer numOfRoom) {
+		this.numOfRoom = numOfRoom;
+	}
+
 }

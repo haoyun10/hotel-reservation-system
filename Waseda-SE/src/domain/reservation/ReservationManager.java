@@ -16,7 +16,7 @@ import domain.DaoFactory;
  */
 public class ReservationManager {
 	
-	public String createReservation(Date stayingDate, Date checkoutDate, String roomType) throws ReservationException,
+	public String createReservation(Date stayingDate, Date checkoutDate,Integer numOfRoom, String roomType) throws ReservationException,
 			NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
@@ -27,13 +27,16 @@ public class ReservationManager {
 		if (roomType == null) {
 			throw new NullPointerException("roomType");
 		}
+		if (numOfRoom == null) {
+			throw new NullPointerException("numOfRoom");
+		}
 		Reservation reservation = new Reservation();
 		String reservationNumber = generateReservationNumber();
 		reservation.setReservationNumber(reservationNumber);
 		reservation.setStayingDate(stayingDate);
 		reservation.setCheckoutDate(checkoutDate);
-
 		reservation.setRoomType(roomType);
+		reservation.setNumOfRoom(numOfRoom);
 
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CREATE);
 
@@ -77,7 +80,7 @@ public class ReservationManager {
 
 		Date stayingDate = reservation.getStayingDate();
 		Date checkoutDate = reservation.getCheckoutDate();
-
+		Integer numOfRoom = reservation.getNumOfRoom();
 		String roomType=reservation.getRoomType();
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CONSUME);
 		reservationDao.updateReservation(reservation);
@@ -86,6 +89,7 @@ public class ReservationManager {
         list.add(DateUtil.convertToString(stayingDate));
         list.add(DateUtil.convertToString(checkoutDate));
         list.add(roomType);
+		list.add(Integer.toString(numOfRoom));
         return list;
 	}
 

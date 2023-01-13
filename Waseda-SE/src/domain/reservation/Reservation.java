@@ -21,6 +21,7 @@ public class Reservation {
 
 	private Date checkoutDate;
 
+	private Integer	numOfRoom;
 	
 	private String roomType;
 	
@@ -61,5 +62,13 @@ public class Reservation {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Integer getNumOfRoom() {
+		return numOfRoom;
+	}
+
+	public void setNumOfRoom(Integer numOfRoom) {
+		this.numOfRoom = numOfRoom;
 	}
 }

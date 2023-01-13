@@ -5,6 +5,8 @@ package app.checkin;
 
 import app.AppException;
 
+import java.util.*;
+
 /**
  * Form class for Check-in Customer
  * 
@@ -19,7 +21,7 @@ public class CheckInRoomForm {
 
 	private String reservationNumber;
 
-	public String checkIn() throws AppException {
+	public List<String> checkIn() throws AppException {
 		CheckInRoomControl checkInRoomControl = getCheckInRoomControl();
 		return checkInRoomControl.checkIn(reservationNumber);
 	}

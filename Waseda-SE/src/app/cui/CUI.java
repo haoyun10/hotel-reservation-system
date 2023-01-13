@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.*;
+
 
 import util.DateUtil;
 import app.AppException;
@@ -102,11 +104,22 @@ public class CUI {
 			System.out.println("Invalid input");
 			return;
 		}
+		System.out.println("Input number of room you want to reserve");
+		System.out.print("> ");
+
+		Integer numOfroom = Integer.parseInt(reader.readLine());
+		// Validate input
+		if (numOfroom==null||numOfroom>5||numOfroom<1) {
+			System.out.println("Invalid input");
+			return;
+		}
 
 		ReserveRoomForm reserveRoomForm = new ReserveRoomForm();
 		reserveRoomForm.setStayingDate(stayingDate);
 		reserveRoomForm.setRoomType(roomType);
 		reserveRoomForm.setCheckoutDate(checkoutDate);
+		reserveRoomForm.setNumOfRoom(numOfroom);
+
 
 
 		String reservationNumber = reserveRoomForm.submitReservation();
@@ -132,8 +145,9 @@ public class CUI {
 		CheckInRoomForm checkInRoomForm = new CheckInRoomForm();
 		checkInRoomForm.setReservationNumber(reservationNumber);
 
-		String roomNumber = checkInRoomForm.checkIn();
+		List<String> roomNumber = checkInRoomForm.checkIn();
 		System.out.println("Check-in has been completed.");
+		System.out.println("You reserved "+roomNumber.size()+" rooms");
 		System.out.println("Room number is " + roomNumber + ".");
 
 	}
