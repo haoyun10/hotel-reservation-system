@@ -85,13 +85,19 @@ public class CUI {
 			System.out.println("Invalid input");
 			return;
 		}
-		
+		System.out.println("Input checkout date in the form of yyyy/mm/dd");
+		System.out.print("> ");
+		String dateStr2 = reader.readLine();
+		Date checkoutDate = DateUtil.convertToDate(dateStr2);
+		if (checkoutDate == null) {
+			System.out.println("Invalid input");
+			return;
+		}
 		System.out.println("Input Room Type (1 for one person, 2 for two people)");
 		System.out.print("> ");
 
 		String roomType = reader.readLine();
 		// Validate input
-		
 		if (roomType==null||(!roomType.equals("1")&&!roomType.equals("2"))) {
 			System.out.println("Invalid input");
 			return;
@@ -100,11 +106,15 @@ public class CUI {
 		ReserveRoomForm reserveRoomForm = new ReserveRoomForm();
 		reserveRoomForm.setStayingDate(stayingDate);
 		reserveRoomForm.setRoomType(roomType);
+		reserveRoomForm.setCheckoutDate(checkoutDate);
+
 
 		String reservationNumber = reserveRoomForm.submitReservation();
 
 		System.out.println("Reservation has been completed.");
 		System.out.println("Arrival (staying) date is " + DateUtil.convertToString(stayingDate) + ".");
+		System.out.println("Checkout date is " + DateUtil.convertToString(checkoutDate) + ".");
+
 		System.out.println("Reservation number is " + reservationNumber + ".");
 	}
 

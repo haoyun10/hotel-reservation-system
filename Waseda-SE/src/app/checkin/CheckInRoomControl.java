@@ -29,16 +29,18 @@ public class CheckInRoomControl {
 			List<String> list1=reservationManager.consumeReservation(reservationNumber);
 		
 			Date stayingDate = DateUtil.convertToDate(list1.get(0));
-			String roomType = list1.get(1);
+			Date checkoutDate = DateUtil.convertToDate(list1.get(1));
+
+			String roomType = list1.get(2);
 			// System.out.println("stayingDate "+list1.get(1));
 			
 			//Assign room
 			RoomManager roomManager = getRoomManager();
-			String roomNumber = roomManager.assignCustomer(stayingDate,roomType);
+			String roomNumber = roomManager.assignCustomer(stayingDate,checkoutDate,roomType);
 
 			//Create payment
 			PaymentManager paymentManager = getPaymentManager();
-			paymentManager.createPayment(stayingDate, roomNumber,roomType);
+			paymentManager.createPayment(stayingDate,checkoutDate, roomNumber,roomType);
 
 			return roomNumber;
 		}

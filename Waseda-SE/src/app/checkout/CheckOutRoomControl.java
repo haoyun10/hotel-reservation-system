@@ -4,6 +4,7 @@
 package app.checkout;
 
 import java.util.Date;
+import java.util.List;
 
 import app.AppException;
 import app.ManagerFactory;
@@ -25,7 +26,9 @@ public class CheckOutRoomControl {
 			 * Your code for clearing room by using domain.room.RoomManager
 			 */
 			RoomManager roomManager = getRoomManager();
-			Date stayingDate = roomManager.removeCustomer(roomNumber);
+			List<Date> list = roomManager.removeCustomer(roomNumber);
+			Date stayingDate = list.get(0);
+			Date checkoutDate = list.get(1);
 
 			//Consume payment
 			/*
@@ -33,7 +36,7 @@ public class CheckOutRoomControl {
 			 */
 			PaymentManager paymentManager = getPaymentManager();
 			// Integer amout=paymentManager.amount;
-			paymentManager.consumePayment(stayingDate, roomNumber);
+			paymentManager.consumePayment(stayingDate,checkoutDate, roomNumber);
 
 		}
 		catch (RoomException e) {

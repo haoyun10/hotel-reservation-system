@@ -76,7 +76,7 @@ public class RoomSqlDao implements RoomDao {
 		try {
 			connection = getConnection();
 			statement = connection.createStatement();
-			sql.append("SELECT roomnumber, roomtype, stayingdate FROM ");
+			sql.append("SELECT roomnumber, roomtype, stayingdate, checkoutdate FROM ");
 			sql.append(TABLE_NAME);
 			sql.append(" WHERE ROOMNUMBER='");
 			sql.append(roomNumber);
@@ -88,6 +88,7 @@ public class RoomSqlDao implements RoomDao {
 				room.setRoomNumber(roomNumber);
 				room.setRoomType(resultSet.getString("roomtype"));
 				room.setStayingDate(DateUtil.convertToDate(resultSet.getString("stayingDate")));
+				room.setCheckoutDate(DateUtil.convertToDate(resultSet.getString("checkoutDate")));
 			}
 		}
 		catch (SQLException e) {
@@ -116,6 +117,7 @@ public class RoomSqlDao implements RoomDao {
 			sql.append("SELECT DISTINCT roomnumber FROM ");
 			sql.append(TABLE_NAME);
 			sql.append(" WHERE stayingdate=''");
+			sql.append(" AND checkoutdate=''");
 			sql.append(" AND roomtype='");
 			sql.append(roomType);
 			sql.append("';");
@@ -158,6 +160,16 @@ public class RoomSqlDao implements RoomDao {
 			else {
 				sql.append("'");
 				sql.append(DateUtil.convertToString(room.getStayingDate()));
+				sql.append("'");
+			}
+			sql.append(", checkoutdate =");
+			//Room status and staying date share the same portion on DB table
+			if (room.getCheckoutDate() == null) {
+				sql.append("''");
+			}
+			else {
+				sql.append("'");
+				sql.append(DateUtil.convertToString(room.getCheckoutDate()));
 				sql.append("'");
 			}
 			sql.append(" WHERE roomnumber='");

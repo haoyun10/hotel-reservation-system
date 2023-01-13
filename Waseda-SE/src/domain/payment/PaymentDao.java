@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public interface PaymentDao {
 
-	public abstract Payment getPayment(Date stayingDate, String roomNumber) throws PaymentException;
+	public abstract Payment getPayment(Date stayingDate,Date checkoutDate, String roomNumber) throws PaymentException;
 
 	public abstract void updatePayment(Payment payment) throws PaymentException;
 

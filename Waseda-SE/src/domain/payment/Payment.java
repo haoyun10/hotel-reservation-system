@@ -17,6 +17,9 @@ public class Payment {
 
 	private Date stayingDate;
 
+	private Date checkoutDate;
+
+
 	private String roomNumber;
 	
 	private String roomType;
@@ -33,6 +36,14 @@ public class Payment {
 
 	public void setStayingDate(Date stayingDate) {
 		this.stayingDate = stayingDate;
+	}
+
+	public Date getCheckoutDate() {
+		return checkoutDate;
+	}
+
+	public void setCheckoutDate(Date checkoutDate) {
+		this.checkoutDate = checkoutDate;
 	}
 
 	public String getRoomNumber() {

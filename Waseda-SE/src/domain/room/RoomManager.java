@@ -5,6 +5,7 @@ package domain.room;
 
 import java.util.Date;
 import java.util.List;
+import java.util.*;
 
 import util.DateUtil;
 import domain.DaoFactory;
@@ -70,7 +71,7 @@ public class RoomManager {
 		return rooms.size();
 	}
 
-	public String assignCustomer(Date stayingDate, String roomType) throws RoomException, NullPointerException {
+	public String assignCustomer(Date stayingDate,Date checkoutDate, String roomType) throws RoomException, NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
 		}
@@ -85,11 +86,13 @@ public class RoomManager {
 		Room room = (Room) emptyRooms.get(0);
 		String roomNumber = room.getRoomNumber();
 		room.setStayingDate(stayingDate);
+		room.setCheckoutDate(checkoutDate);
+
 		roomDao.updateRoom(room);
 		return roomNumber;
 	}
 
-	public Date removeCustomer(String roomNumber) throws RoomException, NullPointerException {
+	public List<Date> removeCustomer(String roomNumber) throws RoomException, NullPointerException {
 		if (roomNumber == null) {
 			throw new NullPointerException("roomNumber");
 		}
@@ -102,14 +105,21 @@ public class RoomManager {
 			throw exception;
 		}
 		Date stayingDate = room.getStayingDate();
+		Date checkoutDate = room.getCheckoutDate();
+
 		if (stayingDate == null) {
 			RoomException exception = new RoomException(RoomException.CODE_ROOM_NOT_FULL);
 			exception.getDetailMessages().add("room_number[" + roomNumber + "]");
 			throw exception;
 		}
 		room.setStayingDate(null);
+		room.setCheckoutDate(null);
+
 		roomDao.updateRoom(room);
-		return stayingDate;
+		List<Date> list=new ArrayList<>();
+        list.add(stayingDate);
+        list.add(checkoutDate);
+		return list;
 	}
 
 	private AvailableQtyDao getAvailableQtyDao() {

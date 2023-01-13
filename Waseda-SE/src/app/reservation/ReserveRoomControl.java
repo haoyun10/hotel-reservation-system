@@ -4,6 +4,8 @@
 package app.reservation;
 
 import java.util.Date;
+import java.util.Calendar;
+
 
 import app.AppException;
 import app.ManagerFactory;
@@ -18,17 +20,26 @@ import domain.room.RoomException;
  */
 public class ReserveRoomControl {
 
-	public String makeReservation(Date stayingDate, String roomType) throws AppException {
+	public String makeReservation(Date stayingDate ,Date checkoutDate, String roomType) throws AppException {
 		//Permitting only one night so that change amount of availableQty is always -1
 		int availableQtyOfChange = -1;
 		try {
 			//Update number of available rooms
 			RoomManager roomManager = getRoomManager();
-			roomManager.updateRoomAvailableQty(stayingDate,roomType, availableQtyOfChange);
 
+			final long ONE_DAY_MILLIS = 1000L * 60 * 60 * 24; 
+			long gapDays = Math.abs(checkoutDate.getTime()/ONE_DAY_MILLIS - stayingDate.getTime()/ONE_DAY_MILLIS); 
+			for(int i=0; i<gapDays;i++){ 
+				Date updatedate=new Date();
+				Calendar c = Calendar.getInstance();
+				c.setTime(stayingDate);
+				c.add(Calendar.DATE,i);
+				updatedate = c.getTime();
+				roomManager.updateRoomAvailableQty(updatedate,roomType, availableQtyOfChange);
+			}
 			//Create reservation
 			ReservationManager reservationManager = getReservationManager();
-			String reservationNumber = reservationManager.createReservation(stayingDate,roomType);
+			String reservationNumber = reservationManager.createReservation(stayingDate,checkoutDate,roomType);
 			return reservationNumber;
 		}
 		catch (RoomException e) {

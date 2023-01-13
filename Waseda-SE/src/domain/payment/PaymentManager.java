@@ -19,7 +19,7 @@ public class PaymentManager {
 	 */
 	private static final int RATE_PER_DAY = 8000;
 
-	public void createPayment(Date stayingDate, String roomNumber, String roomType) throws PaymentException,
+	public void createPayment(Date stayingDate,Date checkoutDate, String roomNumber, String roomType) throws PaymentException,
 			NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
@@ -27,12 +27,14 @@ public class PaymentManager {
 		if (roomNumber == null) {
 			throw new NullPointerException("roomNumber");
 		}
-
+		final long ONE_DAY_MILLIS = 1000L * 60 * 60 * 24;
+		int gapDays = (int)Math.abs(checkoutDate.getTime()/ONE_DAY_MILLIS - stayingDate.getTime()/ONE_DAY_MILLIS);   
 		Payment payment = new Payment();
 		payment.setStayingDate(stayingDate);
+		payment.setCheckoutDate(checkoutDate);
 		payment.setRoomNumber(roomNumber);
 		payment.setRoomType(roomType);
-		payment.setAmount(getRatePerDay(roomNumber,roomType));
+		payment.setAmount(getRatePerDay(roomNumber,roomType)*gapDays);
 		payment.setStatus(Payment.PAYMENT_STATUS_CREATE);
 
 		PaymentDao paymentDao = getPaymentDao();
@@ -47,17 +49,20 @@ public class PaymentManager {
 		}
 	}
 
-	public void consumePayment(Date stayingDate, String roomNumber) throws PaymentException,
+	public void consumePayment(Date stayingDate,Date checkoutDate, String roomNumber) throws PaymentException,
 			NullPointerException {
 		if (stayingDate == null) {
 			throw new NullPointerException("stayingDate");
+		}
+		if (checkoutDate == null) {
+			throw new NullPointerException("checkoutDate");
 		}
 		if (roomNumber == null) {
 			throw new NullPointerException("roomNumber");
 		}
 
 		PaymentDao paymentDao = getPaymentDao();
-		Payment payment = paymentDao.getPayment(stayingDate, roomNumber);
+		Payment payment = paymentDao.getPayment(stayingDate,checkoutDate, roomNumber);
 		int fee=payment.getAmount();
 		System.out.println("Total Amount: "+fee);
 

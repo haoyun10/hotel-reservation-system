@@ -17,6 +17,8 @@ public class ReserveRoomForm {
 
 	private Date stayingDate;
 
+	private Date checkoutDate;
+
 	private String roomType;
 
 
@@ -26,7 +28,7 @@ public class ReserveRoomForm {
 
 	public String submitReservation() throws AppException {
 		ReserveRoomControl reserveRoomHandler = getReserveRoomHandler();
-		return reserveRoomHandler.makeReservation(stayingDate,roomType);
+		return reserveRoomHandler.makeReservation(stayingDate,checkoutDate,roomType);
 	}
 
 	public Date getStayingDate() {
@@ -35,6 +37,13 @@ public class ReserveRoomForm {
 
 	public void setStayingDate(Date stayingDate) {
 		this.stayingDate = stayingDate;
+	}
+	public Date getCheckoutDate() {
+		return stayingDate;
+	}
+
+	public void setCheckoutDate(Date checkoutDate) {
+		this.checkoutDate = checkoutDate;
 	}
 	public String getRoomType() {
 		return roomType;

@@ -15,7 +15,8 @@ public class Room {
 
 	private String roomType;
 
-
+	private Date checkoutDate;
+	
 	private Date stayingDate;
 
 	public String getRoomNumber() {
@@ -33,7 +34,19 @@ public class Room {
 	public void setStayingDate(Date stayingDate) {
 		this.stayingDate = stayingDate;
 	}
+
+	public Date getCheckoutDate() {
+		return checkoutDate;
+	}
+
+	public void setCheckoutDate(Date checkoutDate) {
+		this.checkoutDate = checkoutDate;
+	}
+
 	public void setRoomType(String roomType) {
 		this.roomType = roomType;
+	}
+	public String getRoomType() {
+		return roomType;
 	}
 }

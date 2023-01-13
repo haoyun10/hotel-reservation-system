@@ -31,7 +31,7 @@ public class PaymentSqlDao implements PaymentDao {
 	/**
 	 * @see domain.payment.PaymentDao#getPayment(java.util.Date, java.lang.String)
 	 */
-	public Payment getPayment(Date stayingDate, String roomNumber) throws PaymentException {
+	public Payment getPayment(Date stayingDate,Date checkoutDate, String roomNumber) throws PaymentException {
 		StringBuffer sql = new StringBuffer();
 		Statement statement = null;
 		ResultSet resultSet = null;
@@ -40,18 +40,21 @@ public class PaymentSqlDao implements PaymentDao {
 		try {
 			connection = getConnection();
 			statement = connection.createStatement();
-			sql.append("SELECT roomnumber, stayingdate, amount, status FROM ");
+			sql.append("SELECT roomnumber, stayingdate,checkoutdate, amount, status FROM ");
 			sql.append(TABLE_NAME);
 			sql.append(" WHERE ROOMNUMBER= '");
 			sql.append(roomNumber);
 			sql.append("' AND stayingdate='");
 			sql.append(DateUtil.convertToString(stayingDate));
+			sql.append("' AND checkoutdate='");
+			sql.append(DateUtil.convertToString(checkoutDate));
 			sql.append("';");
 			resultSet = statement.executeQuery(sql.toString());
 			if (resultSet.next() == true) {
 				payment = new Payment();
 				payment.setRoomNumber(roomNumber);
 				payment.setStayingDate(stayingDate);
+				payment.setCheckoutDate(checkoutDate);
 				payment.setAmount(Integer.parseInt(resultSet.getString("amount")));
 				payment.setStatus(resultSet.getString("status"));
 			}
@@ -113,10 +116,12 @@ public class PaymentSqlDao implements PaymentDao {
 			statement = connection.createStatement();
 			sql.append("INSERT INTO ");
 			sql.append(TABLE_NAME);
-			sql.append(" (roomnumber, stayingDate, roomType, amount, status) values ('");
+			sql.append(" (roomnumber, stayingDate,checkoutDate, roomType, amount, status) values ('");
 			sql.append(payment.getRoomNumber());
 			sql.append("', '");
 			sql.append(DateUtil.convertToString(payment.getStayingDate()));
+			sql.append("', '");
+			sql.append(DateUtil.convertToString(payment.getCheckoutDate()));
 			sql.append("', '");
 			sql.append(payment.getRoomType());
 			sql.append("', '");
