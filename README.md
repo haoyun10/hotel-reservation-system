@@ -4,6 +4,8 @@ Database:
     database UI: dev_program_DB/mydb/runManager.sh
 SystemUI: Waseda-SE_2/src/app/cui/CUI.java
 
+Developed one is in develop branch
+
 Todo:
 - [X] Waseda-SE_2/src/app/checkout/CheckOutRoomControl.java
   - [X] Clear room
